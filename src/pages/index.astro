@@ -1,7 +1,5 @@
 ---
 import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
-import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 ---
 
@@ -9,41 +7,243 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 <html lang="en">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			@font-face {
+				font-family: 'CastoroTitling';
+				src: url('/fonts/CastoroTitling-Regular.woff') format('woff');
+				font-weight: normal;
+				font-style: normal;
+			}
+			
+			body {
+				margin: 0;
+				padding: 0;
+				height: 100vh;
+				overflow: hidden;
+				position: relative;
+				cursor: none;
+			}
+			
+			#custom-cursor {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 20px;
+				height: 20px;
+				pointer-events: none;
+				z-index: 9999;
+				transition: transform 0.1s ease-out;
+				transform: translate(-50%, -50%);
+			}
+			
+			#crosshair-x {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100vw;
+				height: 1px;
+				border-top: 1px solid #000000;
+				pointer-events: none;
+				z-index: 9998;
+				transform: translateY(-50%);
+			}
+			
+			#crosshair-y {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 1px;
+				height: 100vh;
+				border-left: 1px solid #000000;
+				pointer-events: none;
+				z-index: 9998;
+				transform: translateX(-50%);
+			}
+			
+			#background-video {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				z-index: -1;
+			}
+			
+			#logo {
+				position: absolute;
+				top: 20px;
+				left: 20px;
+				z-index: 10;
+				width: 200px;
+				height: auto;
+			}
+			
+			#navigation {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				display: flex;
+				gap: 260px;
+				z-index: 10;
+			}
+			
+			.nav-link {
+				font-family: 'CastoroTitling', sans-serif;
+				font-size: 30px;
+				color: #FFFFFF;
+				text-decoration: none;
+				white-space: nowrap;
+				position: relative;
+				cursor: none;
+				display: inline-block;
+				transition: color 0.3s ease;
+			}
+			
+			.nav-link:hover {
+				color: #FF0000;
+			}
+
+			/* Mobile optimizations */
+			@media (max-width: 768px) {
+				body {
+					cursor: auto;
+					overflow: hidden;
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					align-items: center;
+					height: 100vh;
+					width: 100vw;
+					margin: 0;
+					padding: 0;
+				}
+
+				#custom-cursor,
+				#crosshair-x,
+				#crosshair-y {
+					display: none;
+				}
+
+				.nav-link {
+					cursor: pointer;
+					/* Remove fuzzy effect on mobile */
+					-webkit-text-fill-color: #FFFFFF !important;
+					color: #FFFFFF !important;
+					background: none !important;
+					flex: 0 0 auto;
+					white-space: nowrap;
+				}
+
+				#logo {
+					width: 200px;
+					position: fixed;
+					top: 50px;
+					left: 50%;
+					transform: translateX(-50%);
+					margin: 0;
+					z-index: 10;
+				}
+
+				/* Hide desktop navigation on mobile */
+				#navigation {
+					display: none;
+				}
+
+				/* Mobile navigation */
+				#mobile-navigation {
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					align-items: center;
+					gap: 100px;
+					position: absolute;
+					top: 50%;
+					left: 50%;
+					transform: translate(-50%, -50%);
+					text-align: center;
+					width: 100vw;
+					height: 100vh;
+				}
+
+				.mobile-nav-link {
+					font-family: 'CastoroTitling', serif;
+					text-decoration: none;
+					color: #FFFFFF;
+					font-size: 24px;
+					cursor: pointer;
+				}
+
+				.mobile-two-lines {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+					line-height: 40px;
+				}
+
+				.mobile-two-lines span {
+					display: block;
+				}
+			}
+
+			/* Desktop: hide mobile navigation */
+			@media (min-width: 769px) {
+				#mobile-navigation {
+					display: none;
+				}
+			}
+		</style>
 	</head>
 	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This
-				template serves as a lightweight, minimally-styled starting point for anyone looking to build
-				a personal website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
+		<video id="background-video" autoplay muted loop playsinline>
+			<source src="/videos/prva strana video.mp4" type="video/mp4">
+		</video>
+		
+		<img id="logo" src="/logo.svg" alt="Logo" />
+		
+		<nav id="navigation">
+			<a href="/projects" class="nav-link">Projects</a>
+			<a href="/mixtapes" class="nav-link">Mixdown & Mastering</a>
+			<a href="/about" class="nav-link">Info</a>
+		</nav>
+
+		<!-- Mobile Navigation -->
+		<nav id="mobile-navigation">
+			<a href="/projects" class="mobile-nav-link">PROJECTS</a>
+			<a href="/mixtapes" class="mobile-nav-link">
+				<div class="mobile-two-lines">
+					<span>MIXDOWN &</span>
+					<span>MASTERING</span>
+				</div>
+			</a>
+			<a href="/about" class="mobile-nav-link">INFO</a>
+		</nav>
+		
+		<img id="custom-cursor" src="/cursors/cross.svg" alt="Custom cursor" />
+		<div id="crosshair-x"></div>
+		<div id="crosshair-y"></div>
+		
+		<script>
+			// Only enable custom cursor on desktop
+			if (window.innerWidth > 768) {
+				const cursor = document.getElementById('custom-cursor');
+				const crosshairX = document.getElementById('crosshair-x');
+				const crosshairY = document.getElementById('crosshair-y');
+				
+				document.addEventListener('mousemove', (e) => {
+					const mouseX = e.clientX;
+					const mouseY = e.clientY;
+					
+					// Update cursor position directly (no lag)
+					cursor.style.left = mouseX + 'px';
+					cursor.style.top = mouseY + 'px';
+					
+					// Update crosshair lines directly (no lag)
+					crosshairX.style.top = mouseY + 'px';
+					crosshairY.style.left = mouseX + 'px';
+				});
+			}
+		</script>
 	</body>
 </html>

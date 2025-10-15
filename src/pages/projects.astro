@@ -1,0 +1,413 @@
+---
+// src/pages/projects.astro
+import BaseHead from '../components/BaseHead.astro';
+import { SITE_TITLE } from '../consts';
+import { supabase } from "../lib/supabaseClient";
+import ProjectGridWrapper from "../components/ProjectGridWrapper";
+
+const { data: projectsData, error } = await supabase
+  .from("projects")
+  .select("*")
+  .order("created_at", { ascending: false });
+
+// Transform projects data for ProjectGrid component
+const projects = projectsData?.map((p) => ({
+  id: String(p.id),
+  title: p.title || '',
+  description: p.description || '',
+  image: p.thumbnail_url || '',
+  category: p.category,
+  links: [
+    p.link1 && p.link1_text ? { label: p.link1_text, href: p.link1 } : null,
+    p.link2 && p.link2_text ? { label: p.link2_text, href: p.link2 } : null,
+    p.link3 && p.link3_text ? { label: p.link3_text, href: p.link3 } : null,
+  ].filter(Boolean) as { label: string; href: string }[],
+})) || [];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={`Projects - ${SITE_TITLE}`} description="Project portfolio" />
+    <style>
+      @font-face {
+        font-family: 'CastoroTitling';
+        src: url('/fonts/CastoroTitling-Regular.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+      }
+      
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        background-color: #000000;
+        color: #FFFFFF;
+        font-family: 'CastoroTitling', serif;
+        min-height: 100vh;
+        cursor: none;
+        overflow-x: hidden;
+      }
+      
+      * {
+        cursor: none !important;
+      }
+      
+      #custom-cursor {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 20px;
+        height: 20px;
+        pointer-events: none;
+        z-index: 9999;
+        transition: transform 0.1s ease-out;
+        transform: translate(-50%, -50%);
+      }
+      
+      #crosshair-x {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 1px;
+        border-top: 1px solid #000000;
+        pointer-events: none;
+        z-index: 9998;
+        transform: translateY(-50%);
+      }
+      
+      #crosshair-y {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 1px;
+        height: 100vh;
+        border-left: 1px solid #000000;
+        pointer-events: none;
+        z-index: 9998;
+        transform: translateX(-50%);
+      }
+      
+      /* Navigation Bar */
+      #filter-nav {
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 40px;
+        background-color: #000000;
+       
+        position: relative;
+      }
+      
+      #filters {
+        display: flex;
+        align-items: center;
+        gap: 60px;
+        flex: 1;
+      }
+      
+      .filter-btn {
+        font-family: 'CastoroTitling', serif;
+        font-size: 24px;
+        color: #FFFFFF;
+        background: none;
+        border: none;
+        cursor: pointer;
+        text-transform: uppercase;
+        transition: color 0.3s ease;
+        white-space: nowrap;
+      }
+      
+      .filter-btn:hover {
+        opacity: 0.8;
+      }
+      
+      .filter-btn.active {
+        color: #FF0000;
+      }
+      
+      #close-btn {
+        font-family: 'CastoroTitling', serif;
+        font-size: 24px;
+        color: #FF0000;
+        background: none;
+        border: none;
+        cursor: pointer;
+        text-decoration: none;
+        transition: opacity 0.3s ease;
+      }
+      
+      #close-btn:hover {
+        opacity: 0.7;
+      }
+
+      /* Burger Menu */
+      #burger-menu {
+        display: none;
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 10px 10px 10px 0;
+        position: relative;
+        z-index: 1001;
+      }
+
+      #burger-menu span {
+        display: block;
+        line-height: 1;
+      }
+
+      /* Filter Overlay */
+      #filter-overlay {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 100%;
+        height: 100vh;
+        background-color: #000000;
+        z-index: 1000;
+        transition: right 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 40px;
+      }
+
+      #filter-overlay.active {
+        right: 0;
+      }
+
+      #filter-overlay .filter-btn {
+        font-size: 24px;
+        margin: 0;
+        white-space: normal;
+        text-align: center;
+        line-height: 40px;
+        max-width: 90vw;
+        word-wrap: break-word;
+        hyphens: auto;
+      }
+
+      #filter-overlay-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        font-family: 'CastoroTitling', serif;
+        font-size: 32px;
+        color: #FF0000;
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+      
+      /* Projects Grid Wrapper */
+      #projects-grid-wrapper {
+        width: 100%;
+        background-color: #000000;
+        position: relative;
+      }
+
+      /* Prevent initial layout shift on mobile */
+      @media (max-width: 768px) {
+        #projects-grid-wrapper {
+          /* Ensure mobile layout is applied immediately */
+          contain: layout;
+        }
+      }
+      
+      #projects-grid-wrapper::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 200px;
+        background: linear-gradient(to bottom, transparent, #000000);
+        pointer-events: none;
+        z-index: 10;
+      }
+      
+      /* Responsive Design */
+      @media (max-width: 1024px) {
+        #projects-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .filter-btn {
+          font-size: 24px;
+        }
+        
+        #filters {
+          gap: 40px;
+        }
+        
+        #filter-nav {
+          padding: 0 20px;
+        }
+      }
+      
+      @media (max-width: 768px) {
+        #projects-grid {
+          grid-template-columns: 1fr;
+          gap: 0;
+        }
+        
+        .filter-btn {
+          font-size: 18px;
+        }
+        
+        #filters {
+          gap: 20px;
+          flex-wrap: wrap;
+        }
+        
+        #filter-nav {
+          height: 80px;
+          padding: 0 20px;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+        }
+        
+        #close-btn {
+          align-self: auto;
+        }
+
+        /* Show burger menu on mobile */
+        #burger-menu {
+          display: block;
+        }
+
+        /* Hide desktop filters on mobile */
+        #filters {
+          display: none;
+        }
+
+        /* Mobile optimizations */
+        body {
+          cursor: auto;
+        }
+
+        * {
+          cursor: pointer !important;
+        }
+
+        #custom-cursor,
+        #crosshair-x,
+        #crosshair-y {
+          display: none;
+        }
+
+        .filter-btn:hover,
+        #close-btn:hover {
+          opacity: 1;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation Bar with Filters -->
+    <nav id="filter-nav">
+      <div id="filters">
+        <button class="filter-btn active" data-filter="all">ALL</button>
+        <button class="filter-btn" data-filter="Music">MUSIC</button>
+        <button class="filter-btn" data-filter="Movie">MOVIE</button>
+        <button class="filter-btn" data-filter="Light & Sound Performance">LIGHT & SOUND PERFORMANCE</button>
+        <button class="filter-btn" data-filter="Other">OTHER</button>
+      </div>
+      <button id="burger-menu">
+        <span style="font-family: 'CastoroTitling', serif; font-size: 24px; color: #FFFFFF;">V</span>
+      </button>
+      <a href="/" id="close-btn">X</a>
+    </nav>
+
+    <!-- Filter Overlay for Mobile -->
+    <div id="filter-overlay">
+      <button id="filter-overlay-close">X</button>
+      <button class="filter-btn active" data-filter="all">ALL</button>
+      <button class="filter-btn" data-filter="Music">MUSIC</button>
+      <button class="filter-btn" data-filter="Movie">MOVIE</button>
+      <button class="filter-btn" data-filter="Light & Sound Performance">LIGHT & SOUND PERFORMANCE</button>
+      <button class="filter-btn" data-filter="Other">OTHER</button>
+    </div>
+
+    <!-- Projects Grid -->
+    <div id="projects-grid-wrapper">
+      <ProjectGridWrapper client:load projects={projects} />
+    </div>
+
+    <!-- Custom Cursor -->
+    <img id="custom-cursor" src="/cursors/cross.svg" alt="Custom cursor" />
+    <div id="crosshair-x"></div>
+    <div id="crosshair-y"></div>
+
+    <script>
+      // Filter functionality
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      const burgerMenu = document.getElementById('burger-menu');
+      const filterOverlay = document.getElementById('filter-overlay');
+      const filterOverlayClose = document.getElementById('filter-overlay-close');
+
+      // Burger menu functionality
+      burgerMenu.addEventListener('click', () => {
+        filterOverlay.classList.add('active');
+      });
+
+      filterOverlayClose.addEventListener('click', () => {
+        filterOverlay.classList.remove('active');
+      });
+
+      // Close overlay when clicking outside
+      filterOverlay.addEventListener('click', (e) => {
+        if (e.target === filterOverlay) {
+          filterOverlay.classList.remove('active');
+        }
+      });
+
+      filterButtons.forEach(button => {
+        button.addEventListener('click', () => {
+          const filterValue = button.getAttribute('data-filter');
+          
+          // Update active state
+          filterButtons.forEach(btn => btn.classList.remove('active'));
+          button.classList.add('active');
+          
+          // Close overlay immediately after selection
+          filterOverlay.classList.remove('active');
+          
+          // Dispatch custom event for React component
+          const event = new CustomEvent('filterChange', { 
+            detail: { filter: filterValue } 
+          });
+          window.dispatchEvent(event);
+        });
+      });
+
+      // Custom cursor functionality - only on desktop
+      if (window.innerWidth > 768) {
+        const cursor = document.getElementById('custom-cursor');
+        const crosshairX = document.getElementById('crosshair-x');
+        const crosshairY = document.getElementById('crosshair-y');
+        
+        document.addEventListener('mousemove', (e) => {
+          const mouseX = e.clientX;
+          const mouseY = e.clientY;
+          
+          // Update cursor position directly (no lag)
+          cursor.style.left = mouseX + 'px';
+          cursor.style.top = mouseY + 'px';
+          
+          // Update crosshair lines directly (no lag)
+          crosshairX.style.top = mouseY + 'px';
+          crosshairY.style.left = mouseX + 'px';
+        });
+      }
+    </script>
+  </body>
+</html>

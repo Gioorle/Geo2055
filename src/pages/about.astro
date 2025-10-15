@@ -1,63 +1,301 @@
 ---
-import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
-import Layout from '../layouts/BlogPost.astro';
+import BaseHead from '../components/BaseHead.astro';
+import { SITE_TITLE } from '../consts';
 ---
 
-<Layout
-	title="About Me"
-	description="Lorem ipsum dolor sit amet"
-	pubDate={new Date('August 08 2021')}
-	heroImage={AboutHeroImage}
->
-	<p>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-		labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo
-		viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam
-		adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus
-		et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus
-		vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque
-		sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
-	</p>
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={`Info - ${SITE_TITLE}`} description="About Regis" />
+    <style>
+      @font-face {
+        font-family: 'CastoroTitling';
+        src: url('/fonts/CastoroTitling-Regular.woff') format('woff');
+        font-weight: normal;
+        font-style: normal;
+      }
 
-	<p>
-		Morbi tristique senectus et netus. Id semper risus in hendrerit gravida rutrum quisque non
-		tellus. Habitasse platea dictumst quisque sagittis purus sit amet. Tellus molestie nunc non
-		blandit massa. Cursus vitae congue mauris rhoncus. Accumsan tortor posuere ac ut. Fringilla urna
-		porttitor rhoncus dolor. Elit ullamcorper dignissim cras tincidunt lobortis. In cursus turpis
-		massa tincidunt dui ut ornare lectus. Integer feugiat scelerisque varius morbi enim nunc.
-		Bibendum neque egestas congue quisque egestas diam. Cras ornare arcu dui vivamus arcu felis
-		bibendum. Dignissim suspendisse in est ante in nibh mauris. Sed tempus urna et pharetra pharetra
-		massa massa ultricies mi.
-	</p>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      
+      body {
+        background-color: #000000;
+        color: #FFFFFF;
+        font-family: 'CastoroTitling', serif;
+        min-height: 100vh;
+        cursor: none;
+        overflow-x: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
 
-	<p>
-		Mollis nunc sed id semper risus in. Convallis a cras semper auctor neque. Diam sit amet nisl
-		suscipit. Lacus viverra vitae congue eu consequat ac felis donec. Egestas integer eget aliquet
-		nibh praesent tristique magna sit amet. Eget magna fermentum iaculis eu non diam. In vitae
-		turpis massa sed elementum. Tristique et egestas quis ipsum suspendisse ultrices. Eget lorem
-		dolor sed viverra ipsum. Vel turpis nunc eget lorem dolor sed viverra. Posuere ac ut consequat
-		semper viverra nam. Laoreet suspendisse interdum consectetur libero id faucibus. Diam phasellus
-		vestibulum lorem sed risus ultricies tristique. Rhoncus dolor purus non enim praesent elementum
-		facilisis. Ultrices tincidunt arcu non sodales neque. Tempus egestas sed sed risus pretium quam
-		vulputate. Viverra suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Fringilla
-		urna porttitor rhoncus dolor purus non. Amet dictum sit amet justo donec enim.
-	</p>
+      /* Background image styles */
+      #bg-image {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background-image: url('/images/pozadina.jpg');
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        z-index: -1;
 
-	<p>
-		Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Tortor posuere ac ut consequat semper
-		viverra. Tellus mauris a diam maecenas sed enim ut sem viverra. Venenatis urna cursus eget nunc
-		scelerisque viverra mauris in. Arcu ac tortor dignissim convallis aenean et tortor at. Curabitur
-		gravida arcu ac tortor dignissim convallis aenean et tortor. Egestas tellus rutrum tellus
-		pellentesque eu. Fusce ut placerat orci nulla pellentesque dignissim enim sit amet. Ut enim
-		blandit volutpat maecenas volutpat blandit aliquam etiam. Id donec ultrices tincidunt arcu. Id
-		cursus metus aliquam eleifend mi.
-	</p>
+        pointer-events: none;
+      }
 
-	<p>
-		Tempus quam pellentesque nec nam aliquam sem. Risus at ultrices mi tempus imperdiet. Id porta
-		nibh venenatis cras sed felis eget velit. Ipsum a arcu cursus vitae. Facilisis magna etiam
-		tempor orci eu lobortis elementum. Tincidunt dui ut ornare lectus sit. Quisque non tellus orci
-		ac. Blandit libero volutpat sed cras. Nec tincidunt praesent semper feugiat nibh sed pulvinar
-		proin gravida. Egestas integer eget aliquet nibh praesent tristique magna.
-	</p>
-</Layout>
+      * {
+        cursor: none !important;
+      }
+
+      #custom-cursor {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 20px;
+        height: 20px;
+        pointer-events: none;
+        z-index: 9999;
+        transition: transform 0.1s ease-out;
+        transform: translate(-50%, -50%);
+      }
+      
+      #crosshair-x {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 1px;
+        border-top: 1px solid #000000;
+        pointer-events: none;
+        z-index: 9998;
+        transform: translateY(-50%);
+      }
+      
+      #crosshair-y {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 1px;
+        height: 100vh;
+        border-left: 1px solid #000000;
+        pointer-events: none;
+        z-index: 9998;
+        transform: translateX(-50%);
+      }
+
+      /* Header with logo and close button */
+      #header {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        z-index: 10;
+      }
+
+      #logo {
+        width: 200px;
+        height: auto;
+      }
+
+      #close-btn {
+        font-family: 'CastoroTitling', serif;
+        font-size: 24px;
+        color: #FF0000;
+        background: none;
+        border: none;
+        text-decoration: none;
+        transition: opacity 0.3s ease;
+      }
+      
+      #close-btn:hover {
+        opacity: 0.7;
+      }
+
+      #content {
+        max-width: 80%;
+        margin: 0 auto;
+        padding: 0 40px;
+      }
+
+      .main-text {
+        font-family: 'CastoroTitling', serif;
+        font-size: 24px;
+        line-height: 1.8;
+        margin-bottom: 80px;
+        color: #FFFFFF;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .team-info {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 80px;
+      }
+
+      .team-member {
+        font-family: 'CastoroTitling', serif;
+        font-size: 20px;
+        color: #FFFFFF;
+      }
+
+      .email-links {
+        display: flex;
+        justify-content: center;
+        margin-top: 40px;
+      }
+
+      .email-link {
+        font-family: 'CastoroTitling', serif;
+        font-size: 24px;
+        color: #FFFFFF;
+        text-decoration: none;
+        transition: color 0.3s ease;
+      }
+
+      .email-link:hover {
+        color: #FF0000;
+      }
+
+      /* Responsive Design */
+      @media (max-width: 768px) {
+        #logo {
+          width: 150px;
+        }
+
+        #close-btn {
+          font-size: 24px;
+        }
+
+        #content {
+		padding-top: 100px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+		  width:350px;
+        }
+
+        .main-text {
+          font-size: 20px;
+          width: 100%;
+          max-width: 350px;
+          margin-bottom: 20px;
+          text-align: center;
+          box-sizing: border-box;
+        }
+
+        .team-info {
+          flex-direction: column;
+          gap: 20px;
+          text-align: center;
+          width: 350px;
+        }
+
+        .team-member {
+          font-size: 18px;
+        }
+
+        .email-links {
+          width: 350px;
+        }
+
+        .email-link {
+          font-size: 20px;
+        }
+
+        /* Mobile optimizations */
+        body {
+          cursor: auto;
+          overflow-x: hidden;
+          padding: 0;
+          margin: 0;
+        }
+
+        * {
+          cursor: pointer !important;
+        }
+
+        #custom-cursor,
+        #crosshair-x,
+        #crosshair-y {
+          display: none;
+        }
+
+        #close-btn:hover,
+        .email-link:hover {
+          opacity: 1;
+          color: #FFFFFF;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Background Image -->
+    <div id="bg-image"></div>
+
+    <!-- Header with logo and close button -->
+    <div id="header">
+      <img id="logo" src="/logo.svg" alt="Logo" />
+      <a href="/" id="close-btn">X</a>
+    </div>
+
+    <div id="content">
+      <p class="main-text">
+        GEO2055 is an audio and event production company run by Relja Ćupić (Regis). Specializing in original music composition, recording, sound design, mixing & mastering for film, advertising, and audiovisual/immersive media.
+        We operate across events, handling music supervision, curation, and production of shows and concerts.
+      </p>
+
+      <div class="team-info">
+        <div class="team-member">
+          Relja Ćupić — Co-founder & Creative Director
+        </div>
+        <div class="team-member">
+          Minja Kadović — Head of Sales & Partnerships
+        </div>
+      </div>
+
+      <div class="email-links">
+        <a href="mailto:info@geo2055.com" class="email-link">info@geo2055.com</a>
+      </div>
+    </div>
+
+    <!-- Custom Cursor -->
+    <img id="custom-cursor" src="/cursors/cross.svg" alt="Custom cursor" />
+    <div id="crosshair-x"></div>
+    <div id="crosshair-y"></div>
+
+    <script>
+      // Custom cursor functionality - only on desktop
+      if (window.innerWidth > 768) {
+        const cursor = document.getElementById('custom-cursor');
+        const crosshairX = document.getElementById('crosshair-x');
+        const crosshairY = document.getElementById('crosshair-y');
+        
+        document.addEventListener('mousemove', (e) => {
+          const mouseX = e.clientX;
+          const mouseY = e.clientY;
+          
+          // Update cursor position directly (no lag)
+          cursor.style.left = mouseX + 'px';
+          cursor.style.top = mouseY + 'px';
+          
+          // Update crosshair lines directly (no lag)
+          crosshairX.style.top = mouseY + 'px';
+          crosshairY.style.left = mouseX + 'px';
+        });
+      }
+    </script>
+  </body>
+</html>
