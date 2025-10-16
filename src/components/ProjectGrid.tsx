@@ -155,6 +155,9 @@ const ProjectGrid: React.FC<Props> = ({ projects, activeFilter = 'all' }) => {
       lineHeight: 1.2,
       color: '#FFFFFF',
       fontFamily: 'Arial, Helvetica, sans-serif',
+      textTransform: 'uppercase',
+      fontWeight: 'normal',
+      letterSpacing: '5px',
     },
     p: {
       margin: 0,
@@ -189,6 +192,9 @@ const ProjectGrid: React.FC<Props> = ({ projects, activeFilter = 'all' }) => {
       width: '80%',
       pointerEvents: 'none' as const,
       zIndex: 5,
+      textTransform: 'uppercase',
+      fontWeight: 'normal',
+      letterSpacing: '5px',
     },
     thumbDarkened: {
       filter: 'brightness(0.3)',

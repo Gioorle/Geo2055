@@ -75,19 +75,20 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 				left: 50%;
 				transform: translate(-50%, -50%);
 				display: flex;
-				gap: 260px;
+				gap: 15vw; /* Use viewport width instead of fixed pixels */
+				max-width: 80vw; /* Prevent excessive spreading on large screens */
 				z-index: 10;
 			}
 			
-            .nav-link {
-                font-family: Arial, Helvetica, sans-serif;
-				font-size: 25px;
-				letter-spacing: 10px;
+			.nav-link {
+				font-family: Arial, Helvetica, sans-serif;
+				font-size: clamp(20px, 2.5vw, 25px); /* Responsive font size */
+				letter-spacing: clamp(6px, 1vw, 10px); /* Responsive letter spacing */
 				color: #FFFFFF;
 				text-decoration: none;
 				white-space: nowrap;
 				position: relative;
-                cursor: pointer;
+				cursor: pointer;
 				display: inline-block;
 				transition: color 0.3s ease;
 			}
@@ -149,14 +150,15 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 					flex-direction: column;
 					justify-content: center;
 					align-items: center;
-					gap: 100px;
+					gap: 50px;
 					position: absolute;
-					top: 50%;
+					top: 40%;
 					left: 50%;
 					transform: translate(-50%, -50%);
 					text-align: center;
 					width: 100vw;
 					height: 100vh;
+					letter-spacing: 5px;
 				}
 
                 .mobile-nav-link {

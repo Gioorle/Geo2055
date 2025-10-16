@@ -44,20 +44,19 @@ const mixtapes = mixtapesData?.map((m) => ({
         overflow-x: hidden;
       }
 
-      /* Background image styles */
-      #bg-image {
+      /* Background image removed */
+
+      /* Background video (behind image) */
+      #bg-video {
         position: fixed;
         top: 0;
         left: 0;
         width: 100vw;
         height: 100vh;
-        background-color: rgba(255, 0, 0, 0.1); /* fallback color for debugging */
-        background-image: url('/images/pozadina.jpg');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-        z-index: -1;
+        object-fit: cover;
+        z-index: -2;
         pointer-events: none;
+        opacity: 0.35;
       }
 
       /* removed custom image cursor */
@@ -84,6 +83,18 @@ const mixtapes = mixtapesData?.map((m) => ({
         pointer-events: none;
         z-index: 9998;
         transform: translateX(-50%);
+      }
+      
+      /* 20% dark overlay over background video */
+      #bg-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, 0.2);
+        z-index: -1; /* above video (-2), below content */
+        pointer-events: none;
       }
       
       /* Navigation Bar */
@@ -328,8 +339,11 @@ const mixtapes = mixtapesData?.map((m) => ({
     </style>
   </head>
   <body>
-    <!-- Background Image -->
-    <div id="bg-image"></div>
+    <!-- Background Video -->
+    <video id="bg-video" autoplay muted loop playsinline>
+      <source src="/videos/videoplayback (1) (2).mp4" type="video/mp4" />
+    </video>
+    <div id="bg-overlay"></div>
     <!-- Navigation Bar with Filters -->
     <nav id="filter-nav">
       <div id="filters">
