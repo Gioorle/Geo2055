@@ -25,7 +25,7 @@ const ZoomLine: React.FC<{
   fontSize?: string;
   fontFamily?: string;
   isInactive?: boolean;
-}> = ({ item, peakScale, lineHeight, fontSize = '18px', fontFamily = 'CastoroTitling, serif', isInactive }) => {
+}> = ({ item, peakScale, lineHeight, fontSize = '18px', fontFamily = 'Arial, Helvetica, sans-serif', isInactive }) => {
   const ref = useRef<HTMLDivElement | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const shouldReduce = useReducedMotion();
@@ -81,7 +81,7 @@ const ZoomLine: React.FC<{
           color: isInactive ? '#666666' : '#FFFFFF',
           textDecoration: 'none',
           transition: 'color 0.3s ease',
-          cursor: 'none',
+          cursor: 'pointer',
         }}
       onMouseEnter={(e) => {
         if (!isMobile) {
@@ -109,7 +109,7 @@ const ScrollZoomList: React.FC<Props> = ({
   peakScale = 1.33, 
   lineHeight,
   fontSize = '18px',
-  fontFamily = 'CastoroTitling, serif',
+  fontFamily = 'Arial, Helvetica, sans-serif',
   activeFilter = 'Mixdown'
 }) => {
   const [isMobile, setIsMobile] = useState(false);

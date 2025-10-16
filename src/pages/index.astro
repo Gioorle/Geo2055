@@ -15,26 +15,16 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 				font-style: normal;
 			}
 			
-			body {
+            body {
 				margin: 0;
 				padding: 0;
 				height: 100vh;
 				overflow: hidden;
 				position: relative;
-				cursor: none;
+                cursor: auto;
 			}
 			
-			#custom-cursor {
-				position: fixed;
-				top: 0;
-				left: 0;
-				width: 20px;
-				height: 20px;
-				pointer-events: none;
-				z-index: 9999;
-				transition: transform 0.1s ease-out;
-				transform: translate(-50%, -50%);
-			}
+            /* removed custom image cursor */
 			
 			#crosshair-x {
 				position: fixed;
@@ -89,17 +79,20 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 				z-index: 10;
 			}
 			
-			.nav-link {
-				font-family: 'CastoroTitling', sans-serif;
-				font-size: 30px;
+            .nav-link {
+                font-family: Arial, Helvetica, sans-serif;
+				font-size: 25px;
+				letter-spacing: 10px;
 				color: #FFFFFF;
 				text-decoration: none;
 				white-space: nowrap;
 				position: relative;
-				cursor: none;
+                cursor: pointer;
 				display: inline-block;
 				transition: color 0.3s ease;
 			}
+
+			.upper { text-transform: uppercase; }
 			
 			.nav-link:hover {
 				color: #FF0000;
@@ -120,7 +113,6 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 					padding: 0;
 				}
 
-				#custom-cursor,
 				#crosshair-x,
 				#crosshair-y {
 					display: none;
@@ -167,8 +159,8 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 					height: 100vh;
 				}
 
-				.mobile-nav-link {
-					font-family: 'CastoroTitling', serif;
+                .mobile-nav-link {
+                    font-family: Arial, Helvetica, sans-serif;
 					text-decoration: none;
 					color: #FFFFFF;
 					font-size: 24px;
@@ -203,9 +195,9 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 		<img id="logo" src="/logo.svg" alt="Logo" />
 		
 		<nav id="navigation">
-			<a href="/projects" class="nav-link">Projects</a>
-			<a href="/mixtapes" class="nav-link">Mixdown & Mastering</a>
-			<a href="/about" class="nav-link">Info</a>
+			<a href="/projects" class="nav-link upper">Projects</a>
+			<a href="/mixtapes" class="nav-link upper">Mixdown & Mastering</a>
+			<a href="/about" class="nav-link upper">Info</a>
 		</nav>
 
 		<!-- Mobile Navigation -->
@@ -220,24 +212,18 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 			<a href="/about" class="mobile-nav-link">INFO</a>
 		</nav>
 		
-		<img id="custom-cursor" src="/cursors/cross.svg" alt="Custom cursor" />
 		<div id="crosshair-x"></div>
 		<div id="crosshair-y"></div>
 		
 		<script>
-			// Only enable custom cursor on desktop
+            // Only enable crosshair lines on desktop
 			if (window.innerWidth > 768) {
-				const cursor = document.getElementById('custom-cursor');
 				const crosshairX = document.getElementById('crosshair-x');
 				const crosshairY = document.getElementById('crosshair-y');
 				
 				document.addEventListener('mousemove', (e) => {
 					const mouseX = e.clientX;
 					const mouseY = e.clientY;
-					
-					// Update cursor position directly (no lag)
-					cursor.style.left = mouseX + 'px';
-					cursor.style.top = mouseY + 'px';
 					
 					// Update crosshair lines directly (no lag)
 					crosshairX.style.top = mouseY + 'px';

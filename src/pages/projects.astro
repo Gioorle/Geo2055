@@ -46,27 +46,15 @@ const projects = projectsData?.map((p) => ({
       body {
         background-color: #000000;
         color: #FFFFFF;
-        font-family: 'CastoroTitling', serif;
+        font-family: Arial, Helvetica, sans-serif;
         min-height: 100vh;
-        cursor: none;
+        cursor: auto;
         overflow-x: hidden;
       }
       
-      * {
-        cursor: none !important;
-      }
+      /* remove global cursor overrides */
       
-      #custom-cursor {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 20px;
-        height: 20px;
-        pointer-events: none;
-        z-index: 9999;
-        transition: transform 0.1s ease-out;
-        transform: translate(-50%, -50%);
-      }
+      /* removed custom image cursor */
       
       #crosshair-x {
         position: fixed;
@@ -94,7 +82,7 @@ const projects = projectsData?.map((p) => ({
       
       /* Navigation Bar */
       #filter-nav {
-        height: 60px;
+        height: 40px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -112,8 +100,9 @@ const projects = projectsData?.map((p) => ({
       }
       
       .filter-btn {
-        font-family: 'CastoroTitling', serif;
-        font-size: 24px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 20px;
+        letter-spacing: 5px;
         color: #FFFFFF;
         background: none;
         border: none;
@@ -132,8 +121,8 @@ const projects = projectsData?.map((p) => ({
       }
       
       #close-btn {
-        font-family: 'CastoroTitling', serif;
-        font-size: 24px;
+        font-family: Arial, Helvetica, sans-serif;
+        font-size: 20px;
         color: #FF0000;
         background: none;
         border: none;
@@ -184,6 +173,7 @@ const projects = projectsData?.map((p) => ({
       }
 
       #filter-overlay .filter-btn {
+        font-family: Arial, Helvetica, sans-serif;
         font-size: 24px;
         margin: 0;
         white-space: normal;
@@ -198,7 +188,7 @@ const projects = projectsData?.map((p) => ({
         position: absolute;
         top: 20px;
         right: 20px;
-        font-family: 'CastoroTitling', serif;
+        font-family: Arial, Helvetica, sans-serif;
         font-size: 32px;
         color: #FF0000;
         background: none;
@@ -240,7 +230,7 @@ const projects = projectsData?.map((p) => ({
         }
         
         .filter-btn {
-          font-size: 24px;
+          font-size: 20px;
         }
         
         #filters {
@@ -268,7 +258,7 @@ const projects = projectsData?.map((p) => ({
         }
         
         #filter-nav {
-          height: 80px;
+          height: 40px;
           padding: 0 20px;
           flex-direction: row;
           align-items: center;
@@ -290,14 +280,6 @@ const projects = projectsData?.map((p) => ({
         }
 
         /* Mobile optimizations */
-        body {
-          cursor: auto;
-        }
-
-        * {
-          cursor: pointer !important;
-        }
-
         #custom-cursor,
         #crosshair-x,
         #crosshair-y {
@@ -322,7 +304,7 @@ const projects = projectsData?.map((p) => ({
         <button class="filter-btn" data-filter="Other">OTHER</button>
       </div>
       <button id="burger-menu">
-        <span style="font-family: 'CastoroTitling', serif; font-size: 24px; color: #FFFFFF;">V</span>
+        <span style="font-family: 'Arial', serif; font-size: 20px; color: #FFFFFF;">V</span>
       </button>
       <a href="/" id="close-btn">X</a>
     </nav>
@@ -342,8 +324,7 @@ const projects = projectsData?.map((p) => ({
       <ProjectGridWrapper client:load projects={projects} />
     </div>
 
-    <!-- Custom Cursor -->
-    <img id="custom-cursor" src="/cursors/cross.svg" alt="Custom cursor" />
+    <!-- Removed custom cursor image -->
     <div id="crosshair-x"></div>
     <div id="crosshair-y"></div>
 
@@ -389,19 +370,14 @@ const projects = projectsData?.map((p) => ({
         });
       });
 
-      // Custom cursor functionality - only on desktop
+      // Crosshair lines - only on desktop
       if (window.innerWidth > 768) {
-        const cursor = document.getElementById('custom-cursor');
         const crosshairX = document.getElementById('crosshair-x');
         const crosshairY = document.getElementById('crosshair-y');
         
         document.addEventListener('mousemove', (e) => {
           const mouseX = e.clientX;
           const mouseY = e.clientY;
-          
-          // Update cursor position directly (no lag)
-          cursor.style.left = mouseX + 'px';
-          cursor.style.top = mouseY + 'px';
           
           // Update crosshair lines directly (no lag)
           crosshairX.style.top = mouseY + 'px';

@@ -32,7 +32,7 @@ const ScrollZoomListWrapper: React.FC<Props> = ({ items }) => {
       items={items} 
       peakScale={1.15}
       fontSize="30px"
-      fontFamily="CastoroTitling, serif"
+      fontFamily="Arial, Helvetica, sans-serif"
       activeFilter={activeFilter}
     />
   );
