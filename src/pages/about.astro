@@ -91,6 +91,11 @@ import { SITE_TITLE } from '../consts';
         z-index: 10;
       }
 
+      #logo-link {
+        display: inline-block;
+        text-decoration: none;
+      }
+
       #logo {
         width: 200px;
         height: auto;
@@ -235,7 +240,9 @@ import { SITE_TITLE } from '../consts';
 
     <!-- Header with logo and close button -->
     <div id="header">
-      <img id="logo" src="/logo.svg" alt="Logo" />
+      <a href="/" id="logo-link">
+        <img id="logo" src="/logo.svg" alt="Logo" />
+      </a>
       <a href="/" id="close-btn">X</a>
     </div>
 
