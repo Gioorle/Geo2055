@@ -33,20 +33,17 @@ import { SITE_TITLE } from '../consts';
         justify-content: center;
       }
 
-      /* Background image styles */
-      #bg-image {
+      /* Background video styles */
+      #bg-video {
         position: fixed;
         top: 0;
         left: 0;
         width: 100vw;
         height: 100vh;
-        background-image: url('/images/pozadina.jpg');
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
+        object-fit: cover;
         z-index: -1;
-
         pointer-events: none;
+        opacity: 0.2;
       }
 
       /* remove global cursor overrides */
@@ -235,8 +232,10 @@ import { SITE_TITLE } from '../consts';
     </style>
   </head>
   <body>
-    <!-- Background Image -->
-    <div id="bg-image"></div>
+    <!-- Background Video -->
+    <video id="bg-video" autoplay muted loop playsinline>
+      <source src="/videos/Red-Light-Horror-Passing-Lights-Loop (2).mp4" type="video/mp4" />
+    </video>
 
     <!-- Header with logo and close button -->
     <div id="header">
