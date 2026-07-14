@@ -59,32 +59,6 @@ const mixtapes = mixtapesData?.map((m) => ({
         opacity: 0.35;
       }
 
-      /* removed custom image cursor */
-      
-      #crosshair-x {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 1px;
-        border-top: 1px solid #333333;
-        pointer-events: none;
-        z-index: 9998;
-        transform: translateY(-50%);
-      }
-      
-      #crosshair-y {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 1px;
-        height: 100vh;
-        border-left: 1px solid #333333;
-        pointer-events: none;
-        z-index: 9998;
-        transform: translateX(-50%);
-      }
-      
       /* 20% dark overlay over background video */
       #bg-overlay {
         position: fixed;
@@ -324,13 +298,6 @@ const mixtapes = mixtapesData?.map((m) => ({
           display: none;
         }
 
-        /* Mobile optimizations */
-        #custom-cursor,
-        #crosshair-x,
-        #crosshair-y {
-          display: none;
-        }
-
         .filter-btn:hover,
         #close-btn:hover {
           opacity: 1;
@@ -374,10 +341,6 @@ const mixtapes = mixtapesData?.map((m) => ({
         </div>
       ))}
     </div>
-
-    <!-- Removed custom cursor image -->
-    <div id="crosshair-x"></div>
-    <div id="crosshair-y"></div>
 
     <script>
       // Filter functionality
@@ -440,20 +403,6 @@ const mixtapes = mixtapesData?.map((m) => ({
         });
       });
 
-      // Crosshair lines - only on desktop
-      if (window.innerWidth > 768) {
-        const crosshairX = document.getElementById('crosshair-x');
-        const crosshairY = document.getElementById('crosshair-y');
-        
-        document.addEventListener('mousemove', (e) => {
-          const mouseX = e.clientX;
-          const mouseY = e.clientY;
-          
-          // Update crosshair lines directly (no lag)
-          crosshairX.style.top = mouseY + 'px';
-          crosshairY.style.left = mouseX + 'px';
-        });
-      }
     </script>
   </body>
 </html>

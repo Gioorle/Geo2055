@@ -46,34 +46,6 @@ import { SITE_TITLE } from '../consts';
         opacity: 0.2;
       }
 
-      /* remove global cursor overrides */
-
-      /* removed custom image cursor */
-      
-      #crosshair-x {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 1px;
-        border-top: 1px solid #333333;
-        pointer-events: none;
-        z-index: 9998;
-        transform: translateY(-50%);
-      }
-      
-      #crosshair-y {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 1px;
-        height: 100vh;
-        border-left: 1px solid #333333;
-        pointer-events: none;
-        z-index: 9998;
-        transform: translateX(-50%);
-      }
-
       /* Header with logo and close button */
       #header {
         position: absolute;
@@ -216,13 +188,6 @@ import { SITE_TITLE } from '../consts';
 		  text-align: left;
         }
 
-        /* Mobile optimizations */
-        #custom-cursor,
-        #crosshair-x,
-        #crosshair-y {
-          display: none;
-        }
-
         #close-btn:hover,
         .email-link:hover {
           opacity: 1;
@@ -265,25 +230,5 @@ import { SITE_TITLE } from '../consts';
       </div>
     </div>
 
-    <!-- Removed custom cursor image -->
-    <div id="crosshair-x"></div>
-    <div id="crosshair-y"></div>
-
-    <script>
-      // Crosshair lines - only on desktop
-      if (window.innerWidth > 768) {
-        const crosshairX = document.getElementById('crosshair-x');
-        const crosshairY = document.getElementById('crosshair-y');
-        
-        document.addEventListener('mousemove', (e) => {
-          const mouseX = e.clientX;
-          const mouseY = e.clientY;
-          
-          // Update crosshair lines directly (no lag)
-          crosshairX.style.top = mouseY + 'px';
-          crosshairY.style.left = mouseX + 'px';
-        });
-      }
-    </script>
   </body>
 </html>

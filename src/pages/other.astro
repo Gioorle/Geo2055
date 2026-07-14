@@ -53,30 +53,6 @@ const projects = (projectsData?.map((p) => ({
         overflow-x: hidden;
       }
       
-      #crosshair-x {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 1px;
-        border-top: 1px solid #000000;
-        pointer-events: none;
-        z-index: 9998;
-        transform: translateY(-50%);
-      }
-      
-      #crosshair-y {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 1px;
-        height: 100vh;
-        border-left: 1px solid #000000;
-        pointer-events: none;
-        z-index: 9998;
-        transform: translateX(-50%);
-      }
-
       /* Navigation Bar */
       #filter-nav {
         height: 40px;
@@ -191,9 +167,6 @@ const projects = (projectsData?.map((p) => ({
       <ProjectGridWrapper client:load projects={projects} />
     </div>
 
-    <div id="crosshair-x"></div>
-    <div id="crosshair-y"></div>
-
     <script>
       // Minimal filter handling (only OTHER)
       const filterButtons = document.querySelectorAll('.filter-btn');
@@ -214,15 +187,6 @@ const projects = (projectsData?.map((p) => ({
         window.dispatchEvent(event);
       }, 600);
 
-      if (window.innerWidth > 768) {
-        const crosshairX = document.getElementById('crosshair-x');
-        const crosshairY = document.getElementById('crosshair-y');
-        document.addEventListener('mousemove', (e) => {
-          const mouseX = e.clientX; const mouseY = e.clientY;
-          crosshairX.style.top = mouseY + 'px';
-          crosshairY.style.left = mouseX + 'px';
-        });
-      }
     </script>
   </body>
 </html>

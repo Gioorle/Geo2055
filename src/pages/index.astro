@@ -24,32 +24,6 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
                 cursor: auto;
 			}
 			
-            /* removed custom image cursor */
-			
-			#crosshair-x {
-				position: fixed;
-				top: 0;
-				left: 0;
-				width: 100vw;
-				height: 1px;
-				border-top: 1px solid #000000;
-				pointer-events: none;
-				z-index: 9998;
-				transform: translateY(-50%);
-			}
-			
-			#crosshair-y {
-				position: fixed;
-				top: 0;
-				left: 0;
-				width: 1px;
-				height: 100vh;
-				border-left: 1px solid #000000;
-				pointer-events: none;
-				z-index: 9998;
-				transform: translateX(-50%);
-			}
-			
 			#background-video {
 				position: fixed;
 				top: 0;
@@ -112,11 +86,6 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 					width: 100vw;
 					margin: 0;
 					padding: 0;
-				}
-
-				#crosshair-x,
-				#crosshair-y {
-					display: none;
 				}
 
 				.nav-link {
@@ -214,24 +183,5 @@ import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
 			<a href="/about" class="mobile-nav-link">INFO</a>
 		</nav>
 		
-		<div id="crosshair-x"></div>
-		<div id="crosshair-y"></div>
-		
-		<script>
-            // Only enable crosshair lines on desktop
-			if (window.innerWidth > 768) {
-				const crosshairX = document.getElementById('crosshair-x');
-				const crosshairY = document.getElementById('crosshair-y');
-				
-				document.addEventListener('mousemove', (e) => {
-					const mouseX = e.clientX;
-					const mouseY = e.clientY;
-					
-					// Update crosshair lines directly (no lag)
-					crosshairX.style.top = mouseY + 'px';
-					crosshairY.style.left = mouseX + 'px';
-				});
-			}
-		</script>
 	</body>
 </html>
